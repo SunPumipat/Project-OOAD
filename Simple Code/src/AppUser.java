@@ -5,7 +5,12 @@ public abstract class AppUser {
     AppUser(String name) {
         this.account = name;
     }
-
+    private static String newUserDB[][] = {
+            {" ", " ", " "},
+            {" ", " ", " "},
+            {" ", " ", " "},
+            {" ", " ", " "}
+    };
     private static String localDB[][] = {
             {"Sun", "1234", "1"},
             {"Dan", "1234", "2"},
@@ -15,8 +20,8 @@ public abstract class AppUser {
     };
 
     public static boolean addUser(String usr, String psw) {
-        String tempDB[][] = localDB;
-        int y = 5;
+        String tempDB[][] = newUserDB;
+        int y = 4;
         for (int i = 0; i < y; i++) {
             if (tempDB[i][0].equals(" ")) {
                 tempDB[i][0] = usr;

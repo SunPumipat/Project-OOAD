@@ -30,7 +30,7 @@ public class MainApp {
                 System.out.print("Password: ");
                 password = input.next();
                 if (farmSystem.registerSystem(username,password)){
-                    System.out.println("|----Success Register!!----|");
+                    System.out.println("|----Success Register!! Wait for administrator to approve----|");
                 }else {
                     System.out.println("|----Success Fail!!----|");
                 }
