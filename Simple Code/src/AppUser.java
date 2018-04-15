@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public abstract class AppUser {
+public abstract class AppUser{
 
     private String account;
 
@@ -29,12 +29,12 @@ public abstract class AppUser {
 
     protected void changePasswordPage() {
         Scanner input = new Scanner(System.in);
-        int row =7 , index = -1 ;
+        int row = 7, index = -1;
         System.out.print("Old Password: ");
         String old = input.next();
 
-        for(int i = 0; i < row;i++){
-            if(localDB[i][0].equals(account) && localDB[i][1].equals(old)){
+        for (int i = 0; i < row; i++) {
+            if (localDB[i][0].equals(account) && localDB[i][1].equals(old)) {
                 index = i;
                 System.out.print("New Password: ");
                 String temp1 = input.next();
@@ -44,7 +44,7 @@ public abstract class AppUser {
                 if (checkNewPassword(temp1, temp2)) {
                     System.out.print("\n[1]Confirm to Change\n[2]Cancel\n: ");
                     int check = input.nextInt();
-                    switch (check){
+                    switch (check) {
                         case 1:
                             localDB[i][1] = temp1;
                             System.out.println("Change password successful");
@@ -54,24 +54,35 @@ public abstract class AppUser {
             }
         }
 
-        if(index == -1){
+        if (index == -1) {
             System.out.println("Incorrect password");
         }
 
     }
 
+    public boolean confirm() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("\n[1]Confirm to Do\n[2]Cancel\n: ");
+        int check = input.nextInt();
+        switch (check) {
+            case 1:
+                return true;
+        }
+        return false;
+    }
+
     private boolean checkNewPassword(String text1, String text2) {
         String splitText[] = text1.split("");
-        for(int i = 0 ; i < splitText.length; i++){
-            if(!(splitText[i].equals("+") && splitText[i].equals("-") && splitText[i].equals("*") && splitText[i].equals("/"))){
+        for (int i = 0; i < splitText.length; i++) {
+            if (!(splitText[i].equals("+") && splitText[i].equals("-") && splitText[i].equals("*") && splitText[i].equals("/"))) {
                 System.out.println("");
-                if((text1.equals(text2))){
+                if ((text1.equals(text2))) {
                     return true;
-                }else{
+                } else {
                     System.out.println("New password doesn’t match");
                     return false;
                 }
-            }else {
+            } else {
                 System.out.println("Incorrect Format");
                 return false;
             }
@@ -124,32 +135,6 @@ public abstract class AppUser {
 
         System.out.println("Username or password is incorrect\n");
         return false;
-    }
-
-    public boolean checkFormat(String mail, String birth) {
-        String checkMail[] = mail.split("");
-        boolean isMailCorrect = false;
-        for (int i = 0; i < checkMail.length; i++) {
-            if (checkMail[i].equals("@")) {
-                isMailCorrect = true;
-            }
-        }
-
-        String checkBirth[] = birth.split("/");
-        boolean isBirthCorrect = false;
-        if (checkBirth.length == 3) {
-            if (Integer.parseInt(checkBirth[0]) < 32 && 0 < Integer.parseInt(checkBirth[0])) {
-                if (Integer.parseInt(checkBirth[1]) < 13 && 0 < Integer.parseInt(checkBirth[1])) {
-                    if (checkBirth[2].split("").length == 4) {
-                        isBirthCorrect = true;
-                    }
-                }
-            }
-        } else {
-            isBirthCorrect = false;
-        }
-
-        return isMailCorrect && isBirthCorrect;
     }
 
     public String getAccount() {

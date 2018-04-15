@@ -19,10 +19,10 @@ public class FarmOwner extends AppUser {
         int choose = input.nextInt();
         switch (choose) {
             case 1:
-                viewMonitor(1);
+                device.viewMonitor(1);
                 break;
             case 2:
-                viewMonitor(2);
+                device.viewMonitor(2);
                 break;
             case 3:
                 viewHistory();
@@ -104,23 +104,12 @@ public class FarmOwner extends AppUser {
     public void DiseasePage() {
         Scanner input = new Scanner(System.in);
         disease = new Disease(getAccount());
-        System.out.print( "[1]View Disease\n" +
+        System.out.print("[1]View Disease\n" +
                 "[0]Back to Menu\n:");
         int choose = input.nextInt();
         switch (choose) {
-              case 1:
-                viewDisease();
-                break;
-        }
-    }
-
-    private void viewMonitor(int select){
-        switch (select){
             case 1:
-                device.listofDeviceMonitor();
-                break;
-            case 2:
-                device.listofStatMonitor();
+                viewDisease();
                 break;
         }
     }
@@ -161,17 +150,8 @@ public class FarmOwner extends AppUser {
         System.out.print("\nName new device: ");
         name = input.next();
 
-        if (device.checkFormat(name)) {
-            System.out.print("[1]Confirm to Add Device\n[2]Cancel\n: ");
-            int check = input.nextInt();
-            switch (check) {
-                case 1:
-                    device.addDevice(name);
-                    break;
-                case 2:
-                    break;
-            }
-
+        if (device.checkFormat(name) && confirm()) {
+            device.addDevice(name);
         } else {
             System.out.println("incorrect format");
         }
@@ -202,16 +182,9 @@ public class FarmOwner extends AppUser {
 
         if (device.checkFormat(name) && hasThatName) {
             for (int i = 0; i < row; i++) {
-                if (Device.deviceDB[i][0].equals(oldDevice)) {
-                    System.out.print("[1]Confirm to Update Device\n[2]Cancel\n: ");
-                    int check = input.nextInt();
-                    switch (check) {
-                        case 1:
-                            Device.deviceDB[i][0] = name;
-                            System.out.println("Device has been updated");
-                            break;
-                    }
-
+                if (Device.deviceDB[i][0].equals(oldDevice) && confirm()) {
+                    Device.deviceDB[i][0] = name;
+                    System.out.println("Device has been updated");
                 } else {
                     System.out.println("Does't has Device");
                 }
@@ -240,18 +213,13 @@ public class FarmOwner extends AppUser {
             }
         }
 
-        if (hasThatDevice) {
-            System.out.print("[1]Confirm to Delete Device\n[2]Cancel\n: ");
-            int check = input.nextInt();
-            switch (check) {
-                case 1:
-                    int column = 6;
-                    for (int i = 0; i < column; i++) {
-                        Device.deviceDB[index][i] = " ";
-                    }
-                    System.out.println("Device has been removed");
-                    break;
+        if (hasThatDevice && confirm()) {
+            int column = 6;
+            for (int i = 0; i < column; i++) {
+                Device.deviceDB[index][i] = " ";
             }
+            System.out.println("Device has been removed");
+
         } else {
             System.out.println("Does't has Device");
         }
@@ -272,14 +240,9 @@ public class FarmOwner extends AppUser {
         System.out.print("Soil Moisture: ");
         double soilLevel = input.nextDouble();
 
-        if (soilLevel > 0 && soilLevel < 10) {
-            System.out.print("[1]Confirm input Soil Moisture Level\n[2]Cancel\n: ");
-            int check = input.nextInt();
-            switch (check) {
-                case 1:
-                    device.recordMoisture(soilLevel);
-                    break;
-            }
+        if (soilLevel > 0 && soilLevel < 10 && confirm()) {
+            device.recordMoisture(soilLevel);
+
         } else {
             System.out.println("incorrect format");
         }
@@ -311,16 +274,11 @@ public class FarmOwner extends AppUser {
             }
 
             if (Product.productDB[i][0].equals(" ")) {
-                if (product.checkFormat(name)) {
-                    System.out.print("[1]Confirm to Add Product\n[2]Cancel\n: ");
-                    int check = input.nextInt();
-                    switch (check) {
-                        case 1:
-                            product.addProduct(name, unit);
-                            System.out.println("Product has been added to the system");
-                            break;
-                    }
+                if (product.checkFormat(name) && confirm()) {
+                    product.addProduct(name, unit);
+                    System.out.println("Product has been added to the system");
                     break;
+
                 } else {
                     System.out.println("incorrect format");
                 }
@@ -353,15 +311,9 @@ public class FarmOwner extends AppUser {
             if (Product.productDB[i][0].equals(oldProduct)) {
                 index = i;
             }
-            if (!(index == -1) && product.checkFormat(name)) {
-                System.out.print("[1]Confirm to Update Product\n[2]Cancel\n: ");
-                int check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        product.updateProduct(name, unit, oldProduct);
-                        System.out.println("Product has been edited");
-                        break;
-                }
+            if (!(index == -1) && product.checkFormat(name) && confirm()) {
+                product.updateProduct(name, unit, oldProduct);
+                System.out.println("Product has been edited");
                 break;
             } else {
                 System.out.println("incorrect format");
@@ -389,19 +341,13 @@ public class FarmOwner extends AppUser {
         name = input.next();
 
         for (int i = 0; i < row; i++) {
-            if (Product.productDB[i][0].equals(name)) {
-                index = i;
-                System.out.print("[1]Confirm to Delete Product\n[2]Cancel\n: ");
-                int check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        int column = 3;
-                        for (int j = 0; i < column; i++) {
-                            Product.productDB[index][j] = " ";
-                        }
-                        System.out.println("Product has been removed from the system");
-                        break;
+            if (Product.productDB[i][0].equals(name) && confirm()) {
+                int column = 3;
+                for (int j = 0; i < column; i++) {
+                    Product.productDB[index][j] = " ";
                 }
+                System.out.println("Product has been removed from the system");
+
             }
         }
 
@@ -426,7 +372,7 @@ public class FarmOwner extends AppUser {
         }
     }
 
-    private void viewDisease(){
+    private void viewDisease() {
         for (int i = 0; i < row; i++) {
             if (!Disease.diseaseDB[i][0].equals(" ")) {
                 System.out.println("[" + i + "] Product Name: " + Disease.diseaseDB[i][0] + " Disease Name: " + Disease.diseaseDB[i][1]);

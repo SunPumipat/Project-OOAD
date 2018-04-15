@@ -1,5 +1,5 @@
 
-public class Device implements Operation{
+public class Device {
 
     private String account;
     private int row = 6;
@@ -95,7 +95,16 @@ public class Device implements Operation{
 
     }
 
-    public void listofStatMonitor() {
+    public void viewMonitor(int select){
+        switch (select) {
+            case 1: listofDeviceMonitor();
+                break;
+            case 2: listofStatMonitor();
+                break;
+        }
+    }
+
+    private void listofStatMonitor() {
         int index = lastUpdate();
         calculateAverage();
 
@@ -116,7 +125,7 @@ public class Device implements Operation{
         }
     }
 
-    public void listofDeviceMonitor() {
+    private void listofDeviceMonitor() {
         for (int i = 0; i < row; i++) {
             if (deviceDB[i][0].equals(" ")) {
                 System.out.println("[" + i + "] No Data");

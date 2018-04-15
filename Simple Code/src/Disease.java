@@ -1,4 +1,4 @@
-public class Disease implements Operation{
+public class Disease {
     private String account;
     private int row = 6;
     public static String[][] diseaseDB = {

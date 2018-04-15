@@ -48,14 +48,14 @@ public class Admin extends AppUser {
         }
     }
 
-    private void viewListDB(int role){
+    private void viewListDB(int role) {
         Scanner input = new Scanner(System.in);
         int row = 7;
-        if(role == 0){
+        if (role == 0) {
             for (int i = 0; i < row; i++) {
                 System.out.println("[" + i + "] Id: " + registerDB[i][0] + " Name: " + registerDB[i][3] + " " + registerDB[i][4] + " Phone: " + registerDB[i][6]);
             }
-        }else if(role == 2 ){
+        } else if (role == 2) {
             for (int i = 0; i < row; i++) {
                 System.out.println("[" + i + "] Id: " + localDB[i][0] + " Name: " + localDB[i][3] + " " + localDB[i][4] + " Phone: " + localDB[i][6]);
             }
@@ -90,14 +90,14 @@ public class Admin extends AppUser {
                 temp = input.next();
                 FarmSystem farmSystem = null;
                 if (choose == 3) {
-                    if (checkFormat(temp, Arrtemp[i][7])) {
+                    if (farmSystem.checkFormat(temp, Arrtemp[i][7])) {
                         isEmail = true;
                         isPhone = true;
                     } else {
                         System.out.println("Incorrect format");
                     }
                 } else if (choose == 4) {
-                    if (checkFormat(Arrtemp[i][5], temp)) {
+                    if (farmSystem.checkFormat(Arrtemp[i][5], temp)) {
                         isEmail = true;
                         isPhone = true;
                     } else {
@@ -108,17 +108,9 @@ public class Admin extends AppUser {
                     isPhone = true;
                 }
 
-                if (isEmail && isPhone) {
-                    System.out.print("\n[1]Confirm to Update\n[2]Cancel\n: ");
-                    check = input.nextInt();
-                    switch (check) {
-                        case 1:
-                            localDB[i][choose + 2] = temp;
-                            System.out.println("User’s personal information has been edited");
-                            break;
-                        case 2:
-                            break;
-                    }
+                if (isEmail && isPhone && confirm()) {
+                    localDB[i][choose + 2] = temp;
+                    System.out.println("User’s personal information has been edited");
                 }
             }
         }
@@ -142,24 +134,17 @@ public class Admin extends AppUser {
         System.out.print("Approve Index: ");
         int index = input.nextInt();
         for (int i = 0; i < row; i++) {
-            if (localDB[i][0].equals(" ")) {
-                int check;
-                System.out.print("\n[1]Confirm to Approve\n[2]Cancel\n: ");
-                check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        localDB[i][0] = registerDB[index][0];
-                        localDB[i][1] = registerDB[index][1];
-                        localDB[i][2] = registerDB[index][2];
-                        localDB[i][3] = registerDB[index][3];
-                        localDB[i][4] = registerDB[index][4];
-                        localDB[i][5] = registerDB[index][5];
-                        localDB[i][6] = registerDB[index][6];
-                        localDB[i][7] = registerDB[index][7];
-                        clearIndexDB(index);
-                        System.out.println("\nThe new farmer account has been approving from the system");
-                        break;
-                }
+            if (localDB[i][0].equals(" ") && confirm()) {
+                localDB[i][0] = registerDB[index][0];
+                localDB[i][1] = registerDB[index][1];
+                localDB[i][2] = registerDB[index][2];
+                localDB[i][3] = registerDB[index][3];
+                localDB[i][4] = registerDB[index][4];
+                localDB[i][5] = registerDB[index][5];
+                localDB[i][6] = registerDB[index][6];
+                localDB[i][7] = registerDB[index][7];
+                clearIndexDB(index);
+                System.out.println("\nThe new farmer account has been approving from the system");
                 break;
             }
         }
@@ -187,19 +172,11 @@ public class Admin extends AppUser {
             }
 
 
-            if (hasThisID) {
-                System.out.print("\n[1]Confirm to Approve\n[2]Cancel\n: ");
-                check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        for (int i = 0; i < column; i++) {
-                            registerDB[index][i] = " ";
-                        }
-                        System.out.println("The new farmer account has been removed from the system");
-                        break;
-                    case 0:
-                        break;
+            if (hasThisID && confirm()) {
+                for (int i = 0; i < column; i++) {
+                    registerDB[index][i] = " ";
                 }
+                System.out.println("The new farmer account has been removed from the system");
             } else {
                 System.out.println("\nSorry don't have this ID");
             }
@@ -220,19 +197,12 @@ public class Admin extends AppUser {
                 }
             }
 
-            if (hasThisID) {
-                System.out.print("\n[1]Confirm to Approve\n[2]Cancel\n: ");
-                check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        for (int i = 0; i < column; i++) {
-                            localDB[index][i] = " ";
-                        }
-                        System.out.println("The farmer account has been removed from the system");
-                        break;
-                    case 0:
-                        break;
+            if (hasThisID && confirm()) {
+                for (int i = 0; i < column; i++) {
+                    localDB[index][i] = " ";
                 }
+                System.out.println("The farmer account has been removed from the system");
+
             } else {
                 System.out.println("\nSorry don't have this ID");
             }
@@ -246,5 +216,6 @@ public class Admin extends AppUser {
             registerDB[index][i] = " ";
         }
     }
+
 
 }

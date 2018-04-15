@@ -18,10 +18,10 @@ public class Farmer extends AppUser {
         int choose = input.nextInt();
         switch (choose) {
             case 1:
-                viewDeviceMonitor();
+                device.viewMonitor(1);
                 break;
             case 2:
-                viewStatMonitor();
+                device.viewMonitor(2);
                 break;
             case 3:
                 viewHistory();
@@ -79,14 +79,6 @@ public class Farmer extends AppUser {
         }
     }
 
-    private void viewDeviceMonitor() {
-        device.listofDeviceMonitor();
-    }
-
-    private void viewStatMonitor() {
-        device.listofStatMonitor();
-    }
-
     private void viewHistory() {
         Scanner input = new Scanner(System.in);
         String date, time;
@@ -128,16 +120,10 @@ public class Farmer extends AppUser {
         for (int i = 0; i < row; i++) {
             if (Product.productDB[i][0].equals(name)) {
                 index = i;
-                if (Integer.parseInt(quantity) > 0 && Integer.parseInt(quantity) < 10) {
-                    System.out.print("[1]Confirm to Add Quantity\n[2]Cancel\n: ");
-                    int check = input.nextInt();
-                    switch (check) {
-                        case 1:
-                            product.addQuantity(name, quantity);
-                            System.out.println("Production record has been added into the system");
-                            device.runMoistureSetting();
-                            break;
-                    }
+                if (Integer.parseInt(quantity) > 0 && Integer.parseInt(quantity) < 10 && confirm()) {
+                    product.addQuantity(name, quantity);
+                    System.out.println("Production record has been added into the system");
+                    device.runMoistureSetting();
                     break;
                 } else {
                     System.out.println("incorrect format");
@@ -169,15 +155,10 @@ public class Farmer extends AppUser {
         for (int i = 0; i < row; i++) {
             if (Product.productDB[i][0].equals(name)) {
                 index = i;
-                if (Integer.parseInt(quantity) > 0 && Integer.parseInt(quantity) < 10) {
-                    System.out.print("[1]Confirm to Update Quantity\n[2]Cancel\n: ");
-                    int check = input.nextInt();
-                    switch (check) {
-                        case 1:
-                            product.updateQuantity(name, quantity);
-                            System.out.println("Production record has been edited");
-                            break;
-                    }
+                if (Integer.parseInt(quantity) > 0 && Integer.parseInt(quantity) < 10 && confirm()) {
+                    product.updateQuantity(name, quantity);
+                    System.out.println("Production record has been edited");
+
                     break;
                 } else {
                     System.out.println("incorrect format");
@@ -204,19 +185,11 @@ public class Farmer extends AppUser {
         System.out.print("Quantity: ");
         quantity = input.next();
         for (int i = 0; i < row; i++) {
-            if (Product.productDB[i][0].equals(name)) {
+            if (Product.productDB[i][0].equals(name) && confirm()) {
                 index = i;
-
-                System.out.print("[1]Confirm to Delete Quantity\n[2]Cancel\n: ");
-                int check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        product.deleteQuantity(name, quantity);
-                        System.out.println("Production record has been removed from the system");
-                        break;
-                }
+                product.deleteQuantity(name, quantity);
+                System.out.println("Production record has been removed from the system");
                 break;
-
             }
         }
         if (index == -1) {
@@ -251,17 +224,17 @@ public class Farmer extends AppUser {
         for (int i = 0; i < row; i++) {
             if (Disease.diseaseDB[i][0].equals(name)) {
                 index = i;
-                if(disease.checkFormat(diseaseName)){
+                if (disease.checkFormat(diseaseName)) {
                     System.out.print("[1]Confirm to Add Disease\n[2]Cancel\n: ");
                     int check = input.nextInt();
                     switch (check) {
                         case 1:
-                            disease.addDisease(name ,diseaseName);
+                            disease.addDisease(name, diseaseName);
                             System.out.println("Disease has been added into the system");
                             break;
                     }
                     break;
-                }else{
+                } else {
                     System.out.println("incorrect format");
                 }
             }
@@ -271,7 +244,7 @@ public class Farmer extends AppUser {
         }
     }
 
-    private void updateDisease(){
+    private void updateDisease() {
         Scanner input = new Scanner(System.in);
         String name, diseaseName;
         int index = -1;
@@ -289,17 +262,11 @@ public class Farmer extends AppUser {
         for (int i = 0; i < row; i++) {
             if (Disease.diseaseDB[i][0].equals(name)) {
                 index = i;
-                if(disease.checkFormat(diseaseName)){
-                    System.out.print("[1]Confirm to Update Disease\n[2]Cancel\n: ");
-                    int check = input.nextInt();
-                    switch (check) {
-                        case 1:
-                            disease.updateDisease(name , diseaseName);
-                            System.out.println("Disease record has been edited");
-                            break;
-                    }
+                if (disease.checkFormat(diseaseName) && confirm()) {
+                    disease.updateDisease(name, diseaseName);
+                    System.out.println("Disease record has been edited");
                     break;
-                }else{
+                } else {
                     System.out.println("incorrect format");
                 }
             }
@@ -309,7 +276,7 @@ public class Farmer extends AppUser {
         }
     }
 
-    private void deleteDisease(){
+    private void deleteDisease() {
         Scanner input = new Scanner(System.in);
         String name;
         int index = -1;
@@ -324,19 +291,11 @@ public class Farmer extends AppUser {
         name = input.next();
 
         for (int i = 0; i < row; i++) {
-            if (Disease.diseaseDB[i][0].equals(name)) {
+            if (Disease.diseaseDB[i][0].equals(name) && confirm()) {
                 index = i;
-
-                System.out.print("[1]Confirm to Delete  Disease Product\n[2]Cancel\n: ");
-                int check = input.nextInt();
-                switch (check) {
-                    case 1:
-                        disease.deleteDisease(name);
-                        System.out.println("Disease record has been removed from the system");
-                        break;
-                }
+                disease.deleteDisease(name);
+                System.out.println("Disease record has been removed from the system");
                 break;
-
             }
         }
         if (index == -1) {
@@ -346,7 +305,7 @@ public class Farmer extends AppUser {
 
     }
 
-    private void viewDisease(){
+    private void viewDisease() {
         for (int i = 0; i < row; i++) {
             if (!Disease.diseaseDB[i][0].equals(" ")) {
                 System.out.println("[" + i + "] Product Name: " + Disease.diseaseDB[i][0] + " Disease Name: " + Disease.diseaseDB[i][1]);
@@ -354,4 +313,5 @@ public class Farmer extends AppUser {
         }
 
     }
+
 }
