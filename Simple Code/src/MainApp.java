@@ -9,7 +9,7 @@ public class MainApp {
         int check;
 
         while (true) {
-            System.out.print("\n[1]Login [2]Register: ");
+            System.out.print("\n[1]Login \n[2]Register\n: ");
             check = input.nextInt();
 
             if (check == 1) {
@@ -24,15 +24,26 @@ public class MainApp {
                     farmSystem.menuFarm();
                 }
 
-            }else if(check == 2){
+            } else if (check == 2) {
                 System.out.print("\nUsername: ");
                 username = input.next();
                 System.out.print("Password: ");
                 password = input.next();
-                if (farmSystem.registerSystem(username,password)){
-                    System.out.println("|----Success Register!!----|");
-                }else {
-                    System.out.println("|----Success Fail!!----|");
+                System.out.print("Name: ");
+                String name = input.next();
+                System.out.print("Surname: ");
+                String sname = input.next();
+                System.out.print("Email: ");
+                String mail = input.next();
+                System.out.print("Phone Number: ");
+                String phone = input.next();
+                System.out.print("Birthday (dd/mm/yyyy): ");
+                String birth = input.next();
+
+                if (farmSystem.registerSystem(username, password, name, sname,mail, phone, birth)) {
+                    System.out.println("|----Success Register!! Wait for administrator to approve----|");
+                } else {
+                    System.out.println("|----Register Fail!!----|");
                 }
             }
 
